@@ -1,6 +1,10 @@
 # Hanime API (Cloudflare Worker)
 
-This API is a serverless implementation of a Hanime-related service, running on Cloudflare Workers. It provides various endpoints to fetch trending videos, browse categories, and retrieve video details in a structured JSON format.
+This API is a serverless implementation of a Hanime-related service, running on Cloudflare Workers. It provides various endpoints to fetch trending videos, browse categories, retrieve video details, and explore tags in a structured JSON format. The base URL for this API is:
+
+```
+https://hentai.ashlynn.workers.dev
+```
 
 ## Table of Contents
 
@@ -14,15 +18,18 @@ This API is a serverless implementation of a Hanime-related service, running on 
    - [`GET /:type/:category/:page`](#get-typecategorypage)
 3. [Example Usage](#example-usage)
 4. [Error Handling](#error-handling)
+5. [Contributing](#contributing)
+6. [License](#license)
 
 ---
 
 ## Features
 
-- Fetch trending videos based on time and page.
+- Fetch trending videos based on time filters (`day`, `week`, `month`) and pagination.
 - Retrieve detailed video information using a unique slug.
-- Browse categories such as hentai tags and brands.
-- Supports pagination for seamless data exploration.
+- Browse various categories, including hentai tags and brands.
+- Fetch all available hentai tags for exploration.
+- Provides paginated results for seamless data exploration.
 
 ---
 
@@ -34,13 +41,11 @@ This API is a serverless implementation of a Hanime-related service, running on 
 Returns a welcome message to indicate the API is operational.
 
 **Example Request:**
-
 ```bash
-curl -X GET https://your-api-url.com/
+curl -X GET https://hentai.ashlynn.workers.dev/
 ```
 
 **Example Response:**
-
 ```plaintext
 Welcome to Hanime API 👀
 ```
@@ -50,35 +55,33 @@ Welcome to Hanime API 👀
 ### `GET /watch/:slug`
 
 **Description:**
-Fetches detailed information about a specific video using its slug.
+Fetches detailed information about a specific video using its unique slug.
 
 **Parameters:**
-
 - `slug` (string): The unique identifier for the video.
 
 **Example Request:**
-
 ```bash
-curl -X GET https://your-api-url.com/watch/some-video-slug
+curl -X GET https://hentai.ashlynn.workers.dev/watch/sample-video-slug
 ```
 
 **Example Response:**
-
 ```json
 {
   "results": [
     {
       "id": 123,
-      "name": "Video Name",
+      "name": "Sample Video Name",
       "description": "A detailed description of the video.",
       "poster_url": "https://example.com/poster.jpg",
       "cover_url": "https://example.com/cover.jpg",
-      "views": 1000,
+      "views": 1500,
       "streams": [
-        { "width": 1920, "height": 1080, "size_mbs": 500, "url": "https://example.com/video.mp4" }
+        { "width": 1920, "height": 1080, "size_mbs": 700, "url": "https://example.com/stream.mp4" }
       ],
       "tags": [
-        { "name": "Tag1", "link": "/hentai-tags/Tag1/0" }
+        { "name": "Tag1", "link": "/hentai-tags/Tag1/0" },
+        { "name": "Tag2", "link": "/hentai-tags/Tag2/0" }
       ],
       "episodes": []
     }
@@ -91,30 +94,27 @@ curl -X GET https://your-api-url.com/watch/some-video-slug
 ### `GET /trending/:time/:page`
 
 **Description:**
-Fetches trending videos based on the specified time range and page number.
+Fetches trending videos based on the specified time filter and page number.
 
 **Parameters:**
-
-- `time` (string): The time filter (e.g., `day`, `week`, `month`).
+- `time` (string): Time filter for trending videos (`day`, `week`, `month`).
 - `page` (integer): The page number to fetch.
 
 **Example Request:**
-
 ```bash
-curl -X GET https://your-api-url.com/trending/week/1
+curl -X GET https://hentai.ashlynn.workers.dev/trending/week/1
 ```
 
 **Example Response:**
-
 ```json
 {
   "results": [
     {
-      "id": 123,
+      "id": 456,
       "name": "Trending Video",
       "slug": "trending-video",
       "cover_url": "https://example.com/cover.jpg",
-      "views": 1500,
+      "views": 2000,
       "link": "/watch/trending-video"
     }
   ],
@@ -127,24 +127,22 @@ curl -X GET https://your-api-url.com/trending/week/1
 ### `GET /browse/:type`
 
 **Description:**
-Fetches browsing data for a specific type (e.g., hentai tags, brands).
+Fetches browsing data for a specific type, such as hentai tags or brands.
 
 **Parameters:**
-
 - `type` (string): The category to browse (e.g., `hentai_tags`, `brands`).
 
 **Example Request:**
-
 ```bash
-curl -X GET https://your-api-url.com/bi
+curl -X GET https://hentai.ashlynn.workers.dev/browse/hentai_tags
 ```
 
-** iExample Response:**
-
+**Example Response:**
 ```json
 {
   "results": [
-    { "text": "Tag1", "url": "/hentai-tags/Tag1/0" }
+    { "text": "Tag1", "url": "/hentai-tags/Tag1/0" },
+    { "text": "Tag2", "url": "/hentai-tags/Tag2/0" }
   ]
 }
 ```
@@ -154,20 +152,19 @@ curl -X GET https://your-api-url.com/bi
 ### `GET /tags`
 
 **Description:**
-Fetches all available hentai tags.
+Fetches all available hentai tags for exploration.
 
 **Example Request:**
-
 ```bash
-curl -X GET https://your-api-url.com/tags
+curl -X GET https://hentai.ashlynn.workers.dev/tags
 ```
 
 **Example Response:**
-
 ```json
 {
   "results": [
-    { "text": "Tag1", "url": "/tags/Tag1/0" }
+    { "text": "Tag1", "url": "/tags/Tag1/0" },
+    { "text": "Tag2", "url": "/tags/Tag2/0" }
   ]
 }
 ```
@@ -177,35 +174,32 @@ curl -X GET https://your-api-url.com/tags
 ### `GET /:type/:category/:page`
 
 **Description:**
-Fetches videos from a specific category and type, paginated by the page number.
+Fetches videos from a specific category and type, with pagination support.
 
 **Parameters:**
-
 - `type` (string): The type of videos (e.g., `hentai_videos`).
 - `category` (string): The category slug.
 - `page` (integer): The page number to fetch.
 
 **Example Request:**
-
 ```bash
-curl -X GET https://your-api-url.com/hentai_videos/category_slug/1
+curl -X GET https://hentai.ashlynn.workers.dev/hentai_videos/sample-category/1
 ```
 
 **Example Response:**
-
 ```json
 {
   "results": [
     {
-      "id": 456,
+      "id": 789,
       "name": "Category Video",
       "slug": "category-video",
       "cover_url": "https://example.com/cover.jpg",
-      "views": 2000,
+      "views": 3000,
       "link": "/watch/category-video"
     }
   ],
-  "next_page": "/hentai_videos/category_slug/2"
+  "next_page": "/hentai_videos/sample-category/2"
 }
 ```
 
@@ -214,13 +208,11 @@ curl -X GET https://your-api-url.com/hentai_videos/category_slug/1
 ## Example Usage
 
 ### Using `curl`
-
 You can test the API endpoints directly using `curl` as shown in the examples above.
 
 ### Using JavaScript Fetch
-
 ```javascript
-fetch('https://your-api-url.com/trending/week/1')
+fetch('https://hentai.ashlynn.workers.dev/trending/week/1')
   .then(response => response.json())
   .then(data => console.log(data));
 ```
@@ -232,7 +224,6 @@ fetch('https://your-api-url.com/trending/week/1')
 In case of errors, the API responds with a JSON object containing the error message:
 
 **Example Error Response:**
-
 ```json
 {
   "error": "Something went wrong"
@@ -240,20 +231,17 @@ In case of errors, the API responds with a JSON object containing the error mess
 ```
 
 **HTTP Status Codes:**
-
 - `200 OK`: Successful request.
-- `404 Not Found`: Endpoint not found.
-- `500 Internal Server Error`: Server encountered an error.
+- `404 Not Found`: The requested endpoint does not exist.
+- `500 Internal Server Error`: The server encountered an error.
 
 ---
 
 ## Contributing
 
-Feel free to contribute by submitting issues or pull requests on GitHub. Make sure to follow best practices and provide clear descriptions for changes.
+Feel free to contribute by submitting issues or pull requests on GitHub. Ensure that your contributions follow best practices and include clear descriptions.
 
 ---
 
 ## License
-
 This project is licensed under the MIT License.
-
