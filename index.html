@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanime API Documentation</title>
+    <link rel="icon" href="https://ar-hosting.pages.dev/1734980950600.jpeg" type="image/x-icon">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #ffc1e3, #fde0d9);
+            color: #5b2a43;
+            line-height: 1.6;
+            margin: 0;
+            animation: fadeIn 1s ease-in;
+        }
+
+        header {
+            background: #f57fae;
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            animation: slideDown 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 3rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: #ffffffcc;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        section h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: #d35483;
+        }
+
+        section p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #ffe9f1;
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        pre {
+            background: #ffe9f1;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        pre button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f292b7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        pre button:hover {
+            background: #d35483;
+        }
+
+        ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background: #f292b7;
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #ffd3e2;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Hanime API Documentation</h1>
+        <p>Your guide to the Hanime API by <strong>Ashlynn Repository</strong></p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>Features</h2>
+            <p>Explore the powerful features of the Hanime API:</p>
+            <ul>
+                <li>Fetch trending videos based on time filters and pagination.</li>
+                <li>Retrieve detailed video information using a unique slug.</li>
+                <li>Browse various categories, including hentai tags and brands.</li>
+                <li>Fetch all available hentai tags for exploration.</li>
+                <li>Provides paginated results for seamless data exploration.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Endpoints</h2>
+            <p>Details of available endpoints:</p>
+
+            <h3>GET /</h3>
+            <p>Returns a welcome message to indicate the API is operational.</p>
+            <pre><code>curl -X GET https://hentai.ashlynn.workers.dev/</code><button onclick="copyToClipboard('curl -X GET https://hentai.ashlynn.workers.dev/')">Copy</button></pre>
+
+            <h3>GET /watch/:slug</h3>
+            <p>Fetches detailed information about a specific video using its unique slug.</p>
+            <pre><code>curl -X GET https://hentai.ashlynn.workers.dev/watch/sample-video-slug</code><button onclick="copyToClipboard('curl -X GET https://hentai.ashlynn.workers.dev/watch/sample-video-slug')">Copy</button></pre>
+
+            <h3>GET /trending/:time/:page</h3>
+            <p>Fetches trending videos based on the specified time filter and page number.</p>
+            <pre><code>curl -X GET https://hentai.ashlynn.workers.dev/trending/week/1</code><button onclick="copyToClipboard('curl -X GET https://hentai.ashlynn.workers.dev/trending/week/1')">Copy</button></pre>
+
+            <h3>GET /browse/:type</h3>
+            <p>Fetches browsing data for a specific type, such as hentai tags or brands.</p>
+            <pre><code>curl -X GET https://hentai.ashlynn.workers.dev/browse/hentai_tags</code><button onclick="copyToClipboard('curl -X GET https://hentai.ashlynn.workers.dev/browse/hentai_tags')">Copy</button></pre>
+
+            <h3>GET /tags</h3>
+            <p>Fetches all available hentai tags for exploration.</p>
+            <pre><code>curl -X GET https://hentai.ashlynn.workers.dev/tags</code><button onclick="copyToClipboard('curl -X GET https://hentai.ashlynn.workers.dev/tags')">Copy</button></pre>
+        </section>
+
+        <section>
+            <h2>Example Usage</h2>
+
+            <h3>Using curl</h3>
+            <pre><code>curl -X GET https://hentai.ashlynn.workers.dev/trending/week/1</code><button onclick="copyToClipboard('curl -X GET https://hentai.ashlynn.workers.dev/trending/week/1')">Copy</button></pre>
+
+            <h3>Using JavaScript Fetch</h3>
+            <pre><code>fetch('https://hentai.ashlynn.workers.dev/trending/week/1')
+  .then(response => response.json())
+  .then(data => console.log(data));</code><button onclick="copyToClipboard('fetch(\'https://hentai.ashlynn.workers.dev/trending/week/1\')\n  .then(response => response.json())\n  .then(data => console.log(data));')">Copy</button></pre>
+        </section>
+
+        <section>
+            <h2>Error Handling</h2>
+            <p>In case of errors, the API responds with a JSON object containing the error message:</p>
+            <pre><code>{
+  "error": "Something went wrong"
+}</code></pre>
+            <p>HTTP Status Codes:</p>
+            <ul>
+                <li><code>200 OK</code>: Successful request.</li>
+                <li><code>404 Not Found</code>: The requested endpoint does not exist.</li>
+                <li><code>500 Internal Server Error</code>: The server encountered an error.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>License</h2>
+            <p>This project is licensed under the MIT License.</p>
+        </section>
+
+        <section>
+            <h2>About the Creator</h2>
+            <p>This API was created by <strong>Ashlynn Repository</strong>. Check out the official channel for updates:</p>
+            <p><a href="https://t.me/Ashlynn_Repository" target="_blank">Visit Ashlynn Repository</a></p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Hanime API Docs. All rights reserved. | Made with 💖 by <a href="https://t.me/Ashlynn_Repository" target="_blank">Ashlynn Repository</a></p>
+    </footer>
+</body>
+
+</html>
